@@ -84,14 +84,14 @@
         </div>
       </div>
     </div>
-    <section class="flex min-h-[60vh]">
+    <section class="flex min-h-[60vh] w-[100%]">
       <router-view />
     </section>
     <footer
       class="flex items-center justify-center bg-[#E1E2EF] h-[30vh] w-screen"
     >
       <p class="">
-        <a href="www.tawandamunongo.tech"> Built By </a>
+        <a href="www.tawandamunongo.tech"> Explore My Other Work</a>
       </p>
     </footer>
   </div>
