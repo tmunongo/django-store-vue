@@ -40,19 +40,19 @@
             <div class="flex items-center justify-center">
               <router-link
                 to="/login"
-                class="h-8 p-1 bg-[#E2C044] rounded-md m-2 hover:scale-110 transition-all duration-500"
+                class="h-10 p-1 bg-[#E2C044] rounded-md m-2 hover:scale-110 transition-all duration-500 w-20 text-center"
                 >Log In</router-link
               >
               <router-link
                 to="/cart"
-                class="h-8 p-1 bg-[#D81E5B] w-16 rounded-md m-2 hover:scale-110 transition-all duration-500"
+                class="h-10 p-1 bg-[#D81E5B] w-[90px] rounded-md m-2 hover:scale-110 transition-all duration-500"
               >
                 <span class="flex justify-around items-center">
                   <img
                     src="https://icongr.am/fontawesome/shopping-cart.svg?size=16&color=currentColor"
                     alt="cart"
                   />
-                  <span>Cart</span>
+                  <span>Cart ({{ cartTotalLength }})</span>
                 </span>
               </router-link>
             </div>
@@ -84,6 +84,12 @@
         </div>
       </div>
     </div>
+    <div
+      class="text-center"
+      v-bind:class="{ 'is-loading': $store.state.isLoading }"
+    >
+      <div class="lds-ripple"></div>
+    </div>
     <section class="flex min-h-[60vh] w-[100%]">
       <router-view />
     </section>
@@ -106,11 +112,77 @@ export default {
   data() {
     return {
       showMobileMenu: false,
+      cart: {
+        items: [],
+      },
     };
+  },
+  beforeCreate() {
+    this.$store.commit("initializeStore");
+  },
+  mounted() {
+    this.cart = this.$store.state.cart;
+  },
+  computed: {
+    cartTotalLength() {
+      let totalLength = 0;
+
+      for (let index = 0; index < this.cart.items.length; index++) {
+        totalLength += this.cart.items[index].quantity;
+      }
+
+      return totalLength;
+    },
   },
 };
 </script>
 
-<style lang="scss">
+<style>
 @import "./app.css";
+.lds-ripple {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+.lds-ripple div {
+  position: absolute;
+  border: 4px solid #fff;
+  opacity: 1;
+  border-radius: 50%;
+  animation: lds-ripple 1s cubic-bezier(0, 0.2, 0.8, 1) infinite;
+}
+.lds-ripple div:nth-child(2) {
+  animation-delay: -0.5s;
+}
+@keyframes lds-ripple {
+  0% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  4.9% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+  5% {
+    top: 36px;
+    left: 36px;
+    width: 0;
+    height: 0;
+    opacity: 1;
+  }
+  100% {
+    top: 0px;
+    left: 0px;
+    width: 72px;
+    height: 72px;
+    opacity: 0;
+  }
+}
 </style>

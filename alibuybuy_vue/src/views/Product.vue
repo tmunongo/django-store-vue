@@ -21,7 +21,9 @@
           />
         </div>
         <div class="mt-4">
-          <a class="p-2 rounded-md bg-[#ff7f50]">Add to cart</a>
+          <a class="p-2 rounded-md bg-[#ff7f50] cursor-grab" @click="addToCart"
+            >Add to cart</a
+          >
         </div>
       </div>
     </div>
@@ -41,18 +43,33 @@ export default {
     this.getProducts();
   },
   methods: {
-    getProducts() {
+    async getProducts() {
+      this.$store.commit("setIsLoading", true);
+
       const category_slug = this.$route.params.category_slug;
       const product_slug = this.$route.params.product_slug;
 
-      axios
+      await axios
         .get(`/api/v1/products/${category_slug}/${product_slug}`)
         .then((response) => {
           this.products = response.data;
+          document.title = this.products.name + " | AliBuyBuy";
         })
         .catch((error) => {
           console.log(error);
         });
+      this.$store.commit("setIsLoading", false);
+    },
+    addToCart() {
+      if (isNaN(this.quantity) || this.quantity < 1) {
+        this.quantity = 1;
+      }
+
+      const item = {
+        products: this.products,
+        quantity: this.quantity,
+      };
+      this.$store.commit("addToCart", item);
     },
   },
 };
