@@ -16,6 +16,32 @@
           <span aria-hidden="true"></span>
         </a>
       </div>
+      <div id="search-bar">
+        <form
+          method="GET"
+          action="/search"
+          className="flex items-center justify-center"
+        >
+          <div>
+            <input
+              type="text"
+              placeholder="Yeezy 240"
+              name="query"
+              class="border border-black rounded-lg p-2"
+            />
+          </div>
+          <div
+            class="p-2 border border-black rounded-lg cursor-grab flex bg-[#22AAA1]"
+          >
+            <input
+              type="submit"
+              value="Search"
+              class="cursor-grab"
+              src="https://icongr.am/fontawesome/search.svg?size=24&color=currentColor"
+            />
+          </div>
+        </form>
+      </div>
       <div class="">
         <div class="flex items-center justify-around">
           <div class="hidden md:block">
